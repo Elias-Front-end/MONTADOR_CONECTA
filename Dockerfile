@@ -1,7 +1,7 @@
 # Multi-stage build for smaller image size
 
 # Stage 1: Build Frontend Assets
-FROM node:20-alpine as frontend
+FROM node:20-alpine AS frontend
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -9,9 +9,11 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Install PHP Dependencies
-FROM composer:latest as composer
+FROM composer:latest AS composer
 WORKDIR /app
 COPY composer.* ./
+# Install system dependencies for Composer
+RUN apk add --no-cache git unzip
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs
 COPY . .
 RUN composer dump-autoload --optimize
