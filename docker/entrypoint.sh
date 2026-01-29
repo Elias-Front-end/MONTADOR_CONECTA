@@ -3,6 +3,9 @@
 # Set correct permissions
 chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
+# Run package discovery (since we skipped it in build)
+php artisan package:discover
+
 # Run Laravel optimizations
 php artisan config:cache
 php artisan route:cache

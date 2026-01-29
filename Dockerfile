@@ -16,7 +16,7 @@ COPY composer.* ./
 RUN apk add --no-cache git unzip
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs
 COPY . .
-RUN composer dump-autoload --optimize
+RUN composer dump-autoload --optimize --no-scripts
 
 # Stage 3: Final Production Image
 FROM php:8.2-fpm
